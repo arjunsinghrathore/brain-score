@@ -1,0 +1,14 @@
+numpy>=1.17
+scikit-learn
+h5py
+tqdm
+gitpython
+fire
+networkx
+matplotlib
+tensorflow
+fire
+jupyter
+pybtex
+peewee
+psycopg2-binary

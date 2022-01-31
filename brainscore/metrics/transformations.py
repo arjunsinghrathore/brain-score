@@ -277,7 +277,7 @@ class CrossValidationSingle(Transformation):
         :param assembly: the assembly to cross-validate over
         """
         
-        print('assembly assembly assembly : ',score)
+        print('assembly assembly assembly : ',assembly)
         
         cross_validation_values, splits = self._split.build_splits(assembly)
 

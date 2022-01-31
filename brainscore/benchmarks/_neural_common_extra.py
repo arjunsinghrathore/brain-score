@@ -211,6 +211,22 @@ class ToleranceCeiling(BenchmarkBase):
         raw_score = self._similarity_metric(self._assembly)
         return explained_variance(raw_score)
 
+
+class NeuralBenchmarkCeiling(BenchmarkBase):
+    def __init__(self, identifier, assembly, number_of_trials, **kwargs):
+        super(NeuralBenchmarkCeiling, self).__init__(identifier=identifier, **kwargs)
+        self._assembly = assembly
+        region = np.unique(self._assembly['region'])
+        assert len(region) == 1
+        self.region = region[0]
+        timebins = timebins_from_assembly(self._assembly)
+        self.timebins = timebins
+        self._number_of_trials = number_of_trials
+
+    def __call__(self):
+        return self.ceiling
+
+
 def gram_on_all(assembly, fname):
     if os.path.isfile(fname):
         assembly = xr.open_dataarray(fname)

@@ -38,8 +38,8 @@ def timebins_from_assembly(assembly):
 
 
 def explained_variance(score, ceiling):
-    print('SCORE : ', score)
-    print('CEILING : ',ceiling)
+#     print('SCORE : ', score)
+#     print('CEILING : ',ceiling)
     ceiled_score = ceil_score(score, ceiling)
     # ro(X, Y)
     # = (r(X, Y) / sqrt(r(X, X) * r(Y, Y)))^2

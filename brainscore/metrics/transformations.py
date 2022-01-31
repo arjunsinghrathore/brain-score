@@ -40,12 +40,12 @@ class Transformation(object):
 
     def __call__(self, *args, apply, aggregate=None, **kwargs):
         values = self._run_pipe(*args, apply=apply, **kwargs)
-        print('values values values : ',values)
+#         print('values values values : ',values)
 
         score = apply_aggregate(aggregate, values) if aggregate is not None else values
-        print('score_1 score_1 score_1 : ',score)
+#         print('score_1 score_1 score_1 : ',score)
         score = apply_aggregate(self.aggregate, score)
-        print('score_2 score_2 score_2 : ',score)
+#         print('score_2 score_2 score_2 : ',score)
         return score
 
     def _run_pipe(self, *args, apply, **kwargs):
@@ -53,12 +53,12 @@ class Transformation(object):
         print('generator generator generator : ',generator)
         for vals in generator:
             y = apply(*vals)
-            print('y y y : ',y)
+#             print('y y y : ',y)
             done = generator.send(y)
             if done:
                 break
         result = next(generator)
-        print('result result result : ',result)
+#         print('result result result : ',result)
         return result
 
     def pipe(self, *args, **kwargs):
@@ -276,6 +276,9 @@ class CrossValidationSingle(Transformation):
         """
         :param assembly: the assembly to cross-validate over
         """
+        
+        print('assembly assembly assembly : ',score)
+        
         cross_validation_values, splits = self._split.build_splits(assembly)
 
         split_scores = []

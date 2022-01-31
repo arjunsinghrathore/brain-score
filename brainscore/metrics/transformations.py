@@ -47,12 +47,15 @@ class Transformation(object):
 
     def _run_pipe(self, *args, apply, **kwargs):
         generator = self.pipe(*args, **kwargs)
+        print('generator generator generator : ',generator)
         for vals in generator:
             y = apply(*vals)
+            print('y y y : ',result)
             done = generator.send(y)
             if done:
                 break
         result = next(generator)
+        print('result result result : ',result)
         return result
 
     def pipe(self, *args, **kwargs):
@@ -215,7 +218,7 @@ class Split:
     @classmethod
     def aggregate(cls, values):
         center = values.mean('split')
-        print('center center center :',center)
+#         print('center center center :',center)
         error = standard_error_of_the_mean(values, 'split')
         return Score([center, error],
                      coords={**{'aggregation': ['center', 'error']},

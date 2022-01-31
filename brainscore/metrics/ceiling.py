@@ -52,7 +52,7 @@ class _SplitHalvesConsistency(Ceiling):
         def __call__(self, half1, half2):
             half1, half2 = self._average_repetitions(half1), self._average_repetitions(half2)
             consistency = self._consistency(half1, half2)
-            print('correlation correlation correlation : ',consistency)
+#             print('correlation correlation correlation : ',consistency)
             consistency = self._correction(consistency, n=2)
             return consistency
 

@@ -215,6 +215,7 @@ class Split:
     @classmethod
     def aggregate(cls, values):
         center = values.mean('split')
+        print('center center center :',center)
         error = standard_error_of_the_mean(values, 'split')
         return Score([center, error],
                      coords={**{'aggregation': ['center', 'error']},

@@ -1,8 +1,9 @@
 from brainscore.utils import LazyLoad
 from brainscore.benchmarks.majajhong2015_combined import _DicarloMajajHong2015Region_lmh, \
-    _DicarloMajajHong2015Region_lmh_covariate, _DicarloMajajHong2015Region_lmh_toleranceceiling, _DicarloMajajHong2015Region_lmh_imagedir, _DicarloMajajHong2015Region_lmh_covariate_gram, _DicarloMajajHong2015Region_lmh_covariate_cache_features
+    _DicarloMajajHong2015Region_lmh_covariate, _DicarloMajajHong2015Region_lmh_toleranceceiling, _DicarloMajajHong2015Region_lmh_imagedir, _DicarloMajajHong2015Region_lmh_covariate_gram, _DicarloMajajHong2015Region_lmh_covariate_cache_features, _Ceiling
 from brainscore.benchmarks.public_benchmarks import _standard_benchmark
 from brainscore.metrics.ceiling import InternalConsistency, RDMConsistency, ToleranceConsistency
+from brainscore.metrics.ceiling_extra import InternalConsistencyLore
 from brainscore.metrics.rdm import RDMCrossValidated
 from brainscore.metrics.regression import CrossRegressedCorrelation, mask_regression, ScaledCrossRegressedCorrelation, \
     pls_regression, pearsonr_correlation
@@ -43,6 +44,10 @@ def get_benchmark(benchmark_identifier, **kwargs):
     elif benchmark_identifier == 'tol_thomas':
         return get_tol_thomas(crossvalidation_kwargs, **kwargs)
 
+    elif benchmark_identifier == 'tol_ceiling':
+        print("hello")
+        return get_tol_ceiling(crossvalidation_kwargs, **kwargs)
+
     else:
         raise NotImplemented("This tolerance identifier has not been implemented yet")
 
@@ -71,6 +76,23 @@ def _gather_cv_kwargs(**kwargs):
             csv_file=kwargs['csv_file'])
 
     return crossvalidation_kwargs
+
+
+def get_tol_ceiling(crossvalidation_kwargs, **kwargs):
+    assert(kwargs.get('assembly_name', None) is not None)
+
+    crossvalidation_kwargs['stratification_coord']=None
+
+    def top_function():
+        return _Ceiling(
+            region=kwargs.get('region', 'IT'),
+            assembly_name=kwargs['assembly_name'],
+            ceiler=InternalConsistencyLore(cross_validation_kwargs=crossvalidation_kwargs)
+        )
+
+    return LazyLoad(top_function)
+
+
 
 
 def get_tol_drew(crossvalidation_kwargs, **kwargs):

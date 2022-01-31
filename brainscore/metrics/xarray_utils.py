@@ -91,7 +91,7 @@ class XarrayCorrelation:
             r, p = self._correlation(target_neuroids, prediction_neuroids)
             correlations.append(r)
         # package
-        print('correlations correlations correlations : ',correlations)
+#         print('correlations correlations correlations : ',correlations)
         result = Score(correlations,
                        coords={coord: (dims, values)
                                for coord, dims, values in walk_coords(target) if dims == neuroid_dims},

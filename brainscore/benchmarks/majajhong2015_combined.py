@@ -28,16 +28,119 @@ BIBTEX = """@article {Majaj13402,
             journal = {Journal of Neuroscience}}"""
 
 
+# def load_assembly(average_repetitions,region, name='dicarlo.MajajHong2015'):
+#     if name.startswith('sheinberg.neural.IT'):
+#         assembly = brainscore.get_assembly(name=name)
+#         # print('assembly assembly : ',assembly)
+#         # assembly = assembly.sel(region=region)
+#         # print('assembly assembly : ',assembly)
+#         # print('assembly assembly region: ',assembly['region'])
+#         # print('assembly assembly neuroid: ',assembly['neuroid'])
+#         # assembly['region'] = 'neuroid', [region] * len(assembly['neuroid'])
+#         # print('assembly assembly : ',assembly)
+#         # print('assembly assembly region: ',assembly['region'])
+#         assembly = assembly.squeeze("time_bin")
+#         assembly.load()
+#         assembly = assembly.transpose('presentation', 'neuroid')
+#         if average_repetitions:
+#             assembly = average_repetition(assembly)
+#         return assembly
+#     else:
+#         assembly = brainscore.get_assembly(name=name)
+#         assembly = assembly.sel(region=region)
+
+#         assembly = assembly.reset_index('presentation')
+
+#         assembly['region'] = 'neuroid', [region] * len(assembly['neuroid'])
+
+#         image_IDs = list(assembly.image_id.data)
+
+#         # print(image_IDs)
+
+#         get_indexes = []
+#         rep_checker = {}
+
+#         for i, image_id in enumerate(image_IDs):
+#             if image_id in rep_checker:
+#                 rep_checker[image_id] += 1
+#                 if rep_checker[image_id] < 2:
+#                     get_indexes.append(i)
+#             else:
+#                 rep_checker[image_id] = 0
+#                 get_indexes.append(i)
+
+#         image_IDs = [image_id for i, image_id in enumerate(image_IDs) if i in get_indexes]
+#         print('image_IDs : ', len(image_IDs))
+
+#         ###################################################
+#         ################# REPETITION NEW ##################
+#         ###################################################
+
+#         count_dict = {}
+#         repetitions = []
+
+#         for image_id in image_IDs:
+#             if image_id in count_dict:
+#                 count_dict[image_id] += 1
+#                 repetitions.append(count_dict[image_id])
+#             else:
+#                 count_dict[image_id] = 0
+#                 repetitions.append(count_dict[image_id])
+
+#         ###################################################
+#         ############## VECTORIZED INDEXING ################
+#         ###################################################
+
+#         neuroid_indexes = range(168)
+#         presentation_indexes = get_indexes
+#         time_indexes = [0]
+
+#         print('repetitions :',list(set(repetitions)))
+
+#         assembly = assembly[neuroid_indexes, presentation_indexes, time_indexes]
+
+#         assembly = assembly.reset_coords(['repetition'], drop = True)
+
+#         assembly['repetition'] = 'presentation', repetitions
+
+#         assembly = assembly.set_index({ 'presentation' : ['repetition', 'rxz', 'image_id', 'stimulus', 'id', 'background_id', 's', \
+#                                                         'image_file_name', 'filename', 'rxy', 'tz', 'category_name', 'rxz_semantic', \
+#                                                         'ty', 'ryz', 'object_name', 'variation', 'size', 'rxy_semantic', 'ryz_semantic']})
+
+#         assembly = assembly.squeeze("time_bin")
+#         assembly.load()
+#         assembly = assembly.transpose('presentation', 'neuroid')
+#         if average_repetitions:
+#             assembly = average_repetition(assembly)
+#         return assembly
+
 def load_assembly(average_repetitions,region, name='dicarlo.MajajHong2015'):
-    assembly = brainscore.get_assembly(name=name)
-    assembly = assembly.sel(region=region)
-    assembly['region'] = 'neuroid', [region] * len(assembly['neuroid'])
-    assembly = assembly.squeeze("time_bin")
-    assembly.load()
-    assembly = assembly.transpose('presentation', 'neuroid')
-    if average_repetitions:
-        assembly = average_repetition(assembly)
-    return assembly
+    if name.startswith('sheinberg.neural.IT'):
+        assembly = brainscore.get_assembly(name=name)
+        # print('assembly assembly : ',assembly)
+        # assembly = assembly.sel(region=region)
+        # print('assembly assembly : ',assembly)
+        # print('assembly assembly region: ',assembly['region'])
+        # print('assembly assembly neuroid: ',assembly['neuroid'])
+        # assembly['region'] = 'neuroid', [region] * len(assembly['neuroid'])
+        # print('assembly assembly : ',assembly)
+        # print('assembly assembly region: ',assembly['region'])
+        assembly = assembly.squeeze("time_bin")
+        assembly.load()
+        assembly = assembly.transpose('presentation', 'neuroid')
+        if average_repetitions:
+            assembly = average_repetition(assembly)
+        return assembly
+    else:
+        assembly = brainscore.get_assembly(name=name)
+        assembly = assembly.sel(region=region)
+        assembly['region'] = 'neuroid', [region] * len(assembly['neuroid'])
+        assembly = assembly.squeeze("time_bin")
+        assembly.load()
+        assembly = assembly.transpose('presentation', 'neuroid')
+        if average_repetitions:
+            assembly = average_repetition(assembly)
+        return assembly
 
 
 def _Ceiling(region, ceiler, assembly_name='dicarlo.MajajHong2015'):

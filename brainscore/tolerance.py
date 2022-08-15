@@ -45,7 +45,7 @@ def get_benchmark(benchmark_identifier, **kwargs):
         return get_tol_thomas(crossvalidation_kwargs, **kwargs)
 
     elif benchmark_identifier == 'tol_ceiling':
-        print("hello")
+        print("hellooo")
         return get_tol_ceiling(crossvalidation_kwargs, **kwargs)
 
     else:

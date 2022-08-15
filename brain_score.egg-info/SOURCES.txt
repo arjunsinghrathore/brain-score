@@ -11,6 +11,7 @@ brain_score.egg-info/top_level.txt
 brainscore/__init__.py
 brainscore/model_interface.py
 brainscore/tolerance.py
+brainscore/tolerance_bs.py
 brainscore/benchmarks/__init__.py
 brainscore/benchmarks/_neural_common.py
 brainscore/benchmarks/_neural_common_extra.py
@@ -32,6 +33,7 @@ brainscore/metrics/__init__.py
 brainscore/metrics/accuracy.py
 brainscore/metrics/anatomy.py
 brainscore/metrics/ceiling.py
+brainscore/metrics/ceiling_extra.py
 brainscore/metrics/cka.py
 brainscore/metrics/correlation.py
 brainscore/metrics/image_level_behavior.py
@@ -45,6 +47,7 @@ brainscore/metrics/transformations.py
 brainscore/metrics/transformations_extra.py
 brainscore/metrics/utils.py
 brainscore/metrics/xarray_utils.py
+brainscore/metrics/xarray_utils_extra.py
 brainscore/submission/__init__.py
 brainscore/submission/__main__.py
 brainscore/submission/configuration.py

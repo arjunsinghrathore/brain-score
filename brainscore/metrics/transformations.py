@@ -172,7 +172,7 @@ class CartesianProduct(Transformation):
 
 class Split:
     class Defaults:
-        splits = 10
+        splits = 1 #10
         train_size = .9
         split_coord = 'image_id'
         stratification_coord = 'object_name'  # cross-validation across images, balancing objects
@@ -277,7 +277,7 @@ class CrossValidationSingle(Transformation):
         :param assembly: the assembly to cross-validate over
         """
         
-        print('assembly assembly assembly : ',assembly)
+        # print('assembly assembly assembly : ',assembly)
         
         cross_validation_values, splits = self._split.build_splits(assembly)
 
@@ -308,11 +308,14 @@ class CrossValidation(Transformation):
     No guarantees are given for data-alignment, use the metadata.
     """
 
-    def __init__(self, *args, split_coord=Split.Defaults.split_coord,
+    def __init__(self, *args, n_splits = Split.Defaults.splits, split_coord=Split.Defaults.split_coord,
                  stratification_coord=Split.Defaults.stratification_coord, expecting_coveriate=False, **kwargs):
         self._split_coord = split_coord
         self._stratification_coord = stratification_coord
-        self._split = Split(*args, split_coord=split_coord, stratification_coord=stratification_coord, **kwargs)
+
+        Split.Defaults.splits = n_splits
+
+        self._split = Split(*args, splits=n_splits, split_coord=split_coord, stratification_coord=stratification_coord, **kwargs)
         self._logger = logging.getLogger(fullname(self))
         #argument to provide csv files with the indexes needed
         self._given_indices_parent_folder = kwargs.get('parent_folder',None)

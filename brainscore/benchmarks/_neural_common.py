@@ -23,7 +23,16 @@ class NeuralBenchmark(BenchmarkBase):
         candidate.start_recording(self.region, time_bins=self.timebins)
         stimulus_set = place_on_screen(self._assembly.stimulus_set, target_visual_degrees=candidate.visual_degrees(),
                                        source_visual_degrees=self._visual_degrees)
+        print('stimulus_set stimulus_set stimulus_set : ',stimulus_set)
+        # stimulus_set.to_csv('/media/data_cifs/projects/prj_brainscore/arjun_brainscore/bs_hackathon/results/ss.csv')
+        # print('converted_image_paths : ',stimulus_set.image_paths)
+        print('self._assembly : ',self._assembly.load_fnc)
+        print('converted_stimuli_id : ',stimulus_set.identifier)
+        # print('converted_stimuli[degrees] : ',stimulus_set['degrees'])
+        # print('converted_stimuli.original_paths : ',stimulus_set.original_paths)
+
         source_assembly = candidate.look_at(stimulus_set, number_of_trials=self._number_of_trials)
+        print('source_assembly source_assembly : ',source_assembly)
         if 'time_bin' in source_assembly.dims:
             source_assembly = source_assembly.squeeze('time_bin')  # static case for these benchmarks
         raw_score = self._similarity_metric(source_assembly, self._assembly)

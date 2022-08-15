@@ -14,11 +14,14 @@ from tqdm import tqdm
 from brainio_base.stimuli import StimulusSet
 
 framework_home = Path(os.getenv('BRAINSCORE_HOME', '~/.brain-score')).expanduser()
+print('framework_home : ',framework_home)
 root_path = framework_home / "stimuli_on_screen"
+print('root_path : ',root_path)
 _logger = logging.getLogger(__name__)
 
 
 def place_on_screen(stimulus_set: StimulusSet, target_visual_degrees: int, source_visual_degrees: int = None):
+    print('In place_on_screen')
     _logger.debug(f"Converting {stimulus_set.identifier} to {target_visual_degrees} degrees")
 
     assert source_visual_degrees or 'degrees' in stimulus_set, \
@@ -28,11 +31,16 @@ def place_on_screen(stimulus_set: StimulusSet, target_visual_degrees: int, sourc
     inferred_visual_degrees = _determine_visual_degrees(source_visual_degrees, stimulus_set)
     if (inferred_visual_degrees == target_visual_degrees).all():
         return stimulus_set
+
+    print('source_visual_degrees : ', source_visual_degrees)
+    print('target_visual_degrees : ', target_visual_degrees)
+
     return _place_on_screen(stimuli_identifier=stimulus_set.identifier, stimulus_set=stimulus_set,
                             target_visual_degrees=target_visual_degrees, source_visual_degrees=source_visual_degrees)
 
 
 def _determine_visual_degrees(visual_degrees, stimulus_set):
+    print('In _determine_visual_degrees')
     if not visual_degrees:
         visual_degrees = stimulus_set['degrees']
     if not is_iterable(visual_degrees):
@@ -43,6 +51,7 @@ def _determine_visual_degrees(visual_degrees, stimulus_set):
 @store(identifier_ignore=['stimulus_set'])
 def _place_on_screen(stimuli_identifier: str, stimulus_set: StimulusSet,
                      target_visual_degrees: int, source_visual_degrees: int = None):
+    print('In _place_on_screen')
     converted_stimuli_id = f"{stimuli_identifier}--target{target_visual_degrees}--source{source_visual_degrees}"
     source_visual_degrees = _determine_visual_degrees(source_visual_degrees, stimulus_set)
 

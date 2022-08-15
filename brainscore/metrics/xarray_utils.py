@@ -79,6 +79,10 @@ class XarrayCorrelation:
         # align
         prediction = prediction.sortby([self._correlation_coord, self._neuroid_coord])
         target = target.sortby([self._correlation_coord, self._neuroid_coord])
+        
+        print('prediction[self._correlation_coord].values : ',len(prediction[self._correlation_coord].values))
+        print('target[self._correlation_coord].values : ',len(target[self._correlation_coord].values))
+
         assert np.array(prediction[self._correlation_coord].values == target[self._correlation_coord].values).all()
         assert np.array(prediction[self._neuroid_coord].values == target[self._neuroid_coord].values).all()
         # compute correlation per neuroid

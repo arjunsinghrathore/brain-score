@@ -30,15 +30,22 @@ from .majajhong2015 import load_assembly as load_majajhong2015, VISUAL_DEGREES a
     BIBTEX as majajhong2015_bibtex
 from .rajalingham2018 import load_assembly as load_rajalingham2018, DicarloRajalingham2018I2n
 
+############################################
+# Sheinberg
+from .sheinberg import load_assembly as load_sheinberg, VISUAL_DEGREES as sheinberg_degrees, \
+    BIBTEX as sheinberg_bibtex,  NUMBER_OF_TRIALS as sheinberg_trials
+
 _logger = logging.getLogger(__name__)
 
 
 def _standard_benchmark(identifier, load_assembly, visual_degrees, number_of_trials, stratification_coord, bibtex):
+    print('assembly_repetition : ')
     assembly_repetition = LazyLoad(lambda: load_assembly(average_repetitions=False))
+    print('assembly : ')
     assembly = LazyLoad(lambda: load_assembly(average_repetitions=True))
     similarity_metric = CrossRegressedCorrelation(
         regression=pls_regression(), correlation=pearsonr_correlation(),
-        crossvalidation_kwargs=dict(stratification_coord=stratification_coord))
+        crossvalidation_kwargs=dict(stratification_coord=stratification_coord, n_splits = 1 if 'sheinberg.neural.IT.1moreobf' == identifier else 10))
     ceiler = InternalConsistency()
     return NeuralBenchmark(identifier=f"{identifier}-pls", version=1,
                            assembly=assembly, similarity_metric=similarity_metric,
@@ -74,6 +81,14 @@ def MajajHongITPublicBenchmark():
                                load_assembly=functools.partial(load_majajhong2015, region='IT', access='public'),
                                visual_degrees=majajhong2015_degrees, number_of_trials=majajhong2015_trials,
                                stratification_coord='object_name', bibtex=majajhong2015_bibtex)
+
+############################################
+# Sheinberg
+def SheinbergITPublicBenchmark():
+    return _standard_benchmark('sheinberg.neural.IT.1moreobf',
+                               load_assembly=functools.partial(load_sheinberg, region='IT', access='public'),
+                               visual_degrees=sheinberg_degrees, number_of_trials=sheinberg_trials,
+                               stratification_coord=None, bibtex=sheinberg_bibtex)
 
 
 class RajalinghamMatchtosamplePublicBenchmark(DicarloRajalingham2018I2n):

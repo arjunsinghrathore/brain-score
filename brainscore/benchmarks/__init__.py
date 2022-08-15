@@ -413,6 +413,12 @@ def _public_benchmark_pool():
     pool['movshon.FreemanZiemba2013public.V2-pls'] = LazyLoad(FreemanZiembaV2PublicBenchmark)
     pool['dicarlo.MajajHong2015public.V4-pls'] = LazyLoad(MajajHongV4PublicBenchmark)
     pool['dicarlo.MajajHong2015public.IT-pls'] = LazyLoad(MajajHongITPublicBenchmark)
+
+    ############################################
+    # Sheinberg
+    # neural benchmarks
+    from .public_benchmarks import SheinbergITPublicBenchmark
+    pool['sheinberg.neural.IT-pls.1moreobf'] = LazyLoad(SheinbergITPublicBenchmark)
     
 
     # behavioral benchmarks
@@ -440,6 +446,9 @@ check_all_disjoint(evaluation_benchmark_pool, engineering_benchmark_pool,
                    experimental_benchmark_pool, public_benchmark_pool)
 
 # engineering benchmarks are part of both the public as well as the private evaluation pools
+# dict_12 = {**dict_1, **dict_2} ---> Is just combining 2 dictionaries and if there is 
+# common key then the last value would be taken!!!!
+
 public_benchmark_pool = {**public_benchmark_pool, **engineering_benchmark_pool}
 evaluation_benchmark_pool = {**evaluation_benchmark_pool}
 # provide unifying pool

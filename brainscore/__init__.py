@@ -13,6 +13,7 @@ _logger = logging.getLogger(__name__)
 
 
 def get_assembly(name):
+    print('nameeeeeeeee : ',name)
     assembly = brainio_get_assembly(name)
     assert hasattr(assembly.stimulus_set, 'identifier')
     assert assembly.stimulus_set.identifier == assembly.stimulus_set_identifier
@@ -46,15 +47,18 @@ def score_model(model_identifier, benchmark_identifier, model, **kwargs):
     # model_identifier variable is not unused, the result caching component uses it to identify the cached results
     assert model is not None
     _logger.debug("retrieving benchmark")
+    print('retrieving benchmark')
 
     # Check if it's as special identifier from the tolerance project
     if benchmark_identifier.startswith('tol_'):
         benchmark = get_benchmark(benchmark_identifier, **kwargs)
     else:
+        print('benchmark_identifier ::: ',benchmark_identifier)
         benchmark = benchmark_pool[benchmark_identifier]
 
 
     _logger.debug("scoring model")
+    print('scoring model')
     score = benchmark(model)
     score.attrs['model_identifier'] = model_identifier
     score.attrs['benchmark_identifier'] = benchmark_identifier
